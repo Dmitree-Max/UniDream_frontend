@@ -6,7 +6,7 @@ import MaterialReactTable from 'material-react-table';
 //nested data is ok, see accessorKeys in ColumnDef below
 
 
-const Example = () => {
+const UniversityTable = () => {
   const [data, setData] = useState([]);
   const URI = "http://localhost:8080/v0/universities"
 
@@ -49,4 +49,4 @@ const Example = () => {
 };
 
 
-export default Example;
+export default UniversityTable;

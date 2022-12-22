@@ -1,6 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
-import Example from './universitiesTable.js';
+import UniversityTable from './universitiesTable.js';
+import Search from './searchPrograms.js';
+import TagSearch from './searchProgramsByTag.js';
 
 function App() {
   return (
@@ -13,16 +15,16 @@ function App() {
           Your assistance in Universities admission
         </p>
 
-        <Example/>
+        <UniversityTable/>
+        <div><br/><br/><br/></div>
 
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Search/>
+        <div><br/><br/><br/></div>
+        <div><br/><br/><br/></div>
+
+        <TagSearch/>
+        <div><br/><br/><br/></div>
+        <div><br/><br/><br/></div>
       </header>
     </div>
   );
