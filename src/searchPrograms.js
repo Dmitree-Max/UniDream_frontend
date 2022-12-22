@@ -86,6 +86,10 @@ class Search extends React.Component {
             accessorKey: 'name',
             header: 'Program',
           },
+            {
+            accessorKey: 'university',
+            header: 'University',
+          },
           {
             accessorKey: 'description',
             header: 'Description',

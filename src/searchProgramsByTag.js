@@ -6,8 +6,8 @@ import Select from 'react-select'
 import CreatableSelect from 'react-select/creatable';
 import chroma from 'chroma-js';
 
-function universitiesOptions () {
-  const URI_ALL = "http://localhost:8080/v0/universities";
+function tagsOptions () {
+  const URI_ALL = "http://localhost:8080/v0/tags";
 
 
     return axios.get(URI_ALL, {headers: {
@@ -21,21 +21,6 @@ function universitiesOptions () {
         );
 }
 
-
-function searchPrograms(univId) {
-  const URI = "http://localhost:8080/v0/university?id=" + univId;
-
-
-    return axios.get(URI, {headers: {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json',
-    }})
-    .then(response => {
-            console.log("response2 " + response.data);
-            return response.data;
-            }
-        );
-}
 
 
 const colourStyles  = {
@@ -78,13 +63,17 @@ class TagSearch extends React.Component {
     this.state = {
         selectedOption: '',
         clearable: true,
-        universities: [],
+        allTags: [],
         programs: [],
-        univ: "0",
+        tags: [],
         columns: [
           {
             accessorKey: 'name',
             header: 'Program',
+          },
+          {
+            accessorKey: 'university',
+            header: 'University',
           },
           {
             accessorKey: 'description',
@@ -114,44 +103,70 @@ class TagSearch extends React.Component {
      }
      this.updatePrograms = this.updatePrograms.bind(this)
      this.handleChange = this.handleChange.bind(this)
+     this.searchPrograms = this.searchPrograms.bind(this)
    }
 
     findId() {
-        var selected = this.state.univ;
+        var selected = this.state.tags;
 
-        const found = this.state.universities.find(element => element.name === selected);
+        const found = this.state.allTags.find(element => element.name === selected);
         if (found == undefined) {
             return 0;
         }
         return found.id;
     }
+    searchPrograms(univId) {
+    console.log("s tags");
+    console.log(this.state.tags);
+    var options = this.state.tags;
+  var URI = "http://localhost:8080/v0/programs?tags=";
+
+  for (var i = 0, l = options.length; i < l; i++) {
+      URI = URI + options[i].value;
+      if (i < options.length - 1) {
+        URI = URI + ",";
+      }
+  }
+
+    return axios.get(URI, {headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'application/json',
+    }})
+    .then(response => {
+            console.log("response2 " + response.data);
+            return response.data;
+            }
+        );
+}
    updatePrograms() {
-          var id = this.findId();
-         searchPrograms(id)
+         this.searchPrograms()
         .then(res => {
             this.setState({
                 programs: res
             })
         })
     }
-
-
   handleChange(e) {
-    console.log("Univ Selected!!");
-    this.setState({ univ: e.value });
-  }
+  console.log("Tag Selected!!");
+  console.log(e);
+
+
+  this.setState({ tags: e });
+
+  console.log(this.state.tags);
+}
 
    componentDidMount() {
-    universitiesOptions()
+    tagsOptions()
         .then(res => {
             this.setState({
-                universities: res
+                allTags: res
             })
         })
    }
  render(){
-    let options = this.state.universities.map(function (university) {
-  return { value: university.name, label: university.name };
+    let options = this.state.allTags.map(function (tag) {
+  return { value: tag.id, label: tag.name};
 })
  return (
       <div>
@@ -163,6 +178,7 @@ class TagSearch extends React.Component {
          University:
        </label>
        <Select
+            isMulti
             onChange={this.handleChange}
             placeholder={""}
             label="Multi select"
