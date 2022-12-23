@@ -3,9 +3,6 @@ import axios from 'axios';
 import MaterialReactTable from 'material-react-table';
 
 
-//nested data is ok, see accessorKeys in ColumnDef below
-
-
 const UniversityTable = () => {
   const [data, setData] = useState([]);
   const URI = "http://localhost:8080/v0/universities"
@@ -18,7 +15,6 @@ const UniversityTable = () => {
     .then(response => setData(response.data))
   }, [])
 
-  //should be memoized or stable
   const columns = useMemo(
     () => [
       {

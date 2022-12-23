@@ -9,7 +9,6 @@ import chroma from 'chroma-js';
 function tagsOptions () {
   const URI_ALL = "http://localhost:8080/v0/tags";
 
-
     return axios.get(URI_ALL, {headers: {
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
@@ -20,8 +19,6 @@ function tagsOptions () {
             }
         );
 }
-
-
 
 const colourStyles  = {
     control: (provided, state) => ({
@@ -54,8 +51,6 @@ const colourStyles  = {
   placeholder: (styles) => ({ ...styles}),
   singleValue: (styles, { data }) => ({ ...styles,}),
 };
-
-
 
 class TagSearch extends React.Component {
     constructor(props) {
@@ -115,29 +110,27 @@ class TagSearch extends React.Component {
         }
         return found.id;
     }
+
     searchPrograms(univId) {
-    console.log("s tags");
-    console.log(this.state.tags);
-    var options = this.state.tags;
-  var URI = "http://localhost:8080/v0/programs?tags=";
+        var options = this.state.tags;
+        var URI = "http://localhost:8080/v0/programs?tags=";
 
-  for (var i = 0, l = options.length; i < l; i++) {
-      URI = URI + options[i].value;
-      if (i < options.length - 1) {
-        URI = URI + ",";
-      }
-  }
-
-    return axios.get(URI, {headers: {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json',
-    }})
-    .then(response => {
-            console.log("response2 " + response.data);
-            return response.data;
+        for (var i = 0, l = options.length; i < l; i++) {
+            URI = URI + options[i].value;
+            if (i < options.length - 1) {
+                URI = URI + ",";
             }
-        );
-}
+        }
+
+        return axios.get(URI, {headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+        }})
+        .then(response => {
+                return response.data;
+        });
+    }
+
    updatePrograms() {
          this.searchPrograms()
         .then(res => {
@@ -146,15 +139,10 @@ class TagSearch extends React.Component {
             })
         })
     }
-  handleChange(e) {
-  console.log("Tag Selected!!");
-  console.log(e);
 
-
-  this.setState({ tags: e });
-
-  console.log(this.state.tags);
-}
+    handleChange(e) {
+        this.setState({ tags: e });
+    }
 
    componentDidMount() {
     tagsOptions()
@@ -164,10 +152,11 @@ class TagSearch extends React.Component {
             })
         })
    }
+
  render(){
     let options = this.state.allTags.map(function (tag) {
-  return { value: tag.id, label: tag.name};
-})
+        return { value: tag.id, label: tag.name};
+    })
  return (
       <div>
        <p>

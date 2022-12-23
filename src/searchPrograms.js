@@ -23,9 +23,7 @@ function universitiesOptions () {
 
 
 function searchPrograms(univId) {
-  const URI = "http://localhost:8080/v0/university?id=" + univId;
-
-
+    const URI = "http://localhost:8080/v0/university?id=" + univId;
     return axios.get(URI, {headers: {
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
@@ -33,10 +31,8 @@ function searchPrograms(univId) {
     .then(response => {
             console.log("response2 " + response.data);
             return response.data;
-            }
-        );
+    });
 }
-
 
 const colourStyles  = {
     control: (provided, state) => ({
@@ -69,8 +65,6 @@ const colourStyles  = {
   placeholder: (styles) => ({ ...styles}),
   singleValue: (styles, { data }) => ({ ...styles,}),
 };
-
-
 
 class Search extends React.Component {
     constructor(props) {
@@ -129,6 +123,7 @@ class Search extends React.Component {
         }
         return found.id;
     }
+
    updatePrograms() {
           var id = this.findId();
          searchPrograms(id)
@@ -139,13 +134,12 @@ class Search extends React.Component {
         })
     }
 
-
   handleChange(e) {
     console.log("Univ Selected!!");
     this.setState({ univ: e.value });
   }
 
-   componentDidMount() {
+  componentDidMount() {
     universitiesOptions()
         .then(res => {
             this.setState({
@@ -153,10 +147,11 @@ class Search extends React.Component {
             })
         })
    }
+
  render(){
     let options = this.state.universities.map(function (university) {
-  return { value: university.name, label: university.name };
-})
+       return { value: university.name, label: university.name };
+     })
  return (
       <div>
        <p>
